@@ -1,14 +1,14 @@
 const express = require("express");
-const userRoutes = express.Router();
+const usersRoutes = express.Router();
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const blacklistModel = require("../models/blacklistModel");
 
-userRoutes.post("/register", async (req, res) => {
+usersRoutes.post("/register", async (req, res) => {
   try {
-    const { firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, phone, email, password } = req.body;
 
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
@@ -17,21 +17,26 @@ userRoutes.post("/register", async (req, res) => {
         .send({ msg: "User already exists, Please register again" });
     }
 
-    const nameRegex = /^\S*$/;
-    if (!nameRegex.test(firstname)) {
+    const whiteSpaceRegex = /^\S*$/;
+    if (!whiteSpaceRegex.test(firstname)) {
       return res
         .status(400)
         .send({ msg: "White space is not allowed in the firstname" });
     }
 
-    if (!nameRegex.test(lastname)) {
+    if (!whiteSpaceRegex.test(lastname)) {
       return res
         .status(400)
         .send({ msg: "White space is not allowed in the lastname" });
     }
 
-    const emailRegex = /^\S*$/;
-    if (!emailRegex.test(email.trim())) {
+    if (!whiteSpaceRegex.test(phone)) {
+      return res
+        .status(400)
+        .send({ msg: "White space is not allowed in the phone no" });
+    }
+
+    if (!whiteSpaceRegex.test(email.trim())) {
       return res
         .status(400)
         .send({ msg: "White space is not allowed in the email address" });
@@ -57,7 +62,7 @@ userRoutes.post("/register", async (req, res) => {
   }
 });
 
-userRoutes.post("/login", async (req, res) => {
+usersRoutes.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const userCheck = await userModel.findOne({ email });
@@ -88,11 +93,9 @@ userRoutes.post("/login", async (req, res) => {
   }
 });
 
-userRoutes.post("/logout", async (req, res) => {
+usersRoutes.post("/logout", async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1] || null;
-
-    // console.log(token);
 
     if (!token) {
       return res.status(401).send({ msg: "Invaild token, please login again" });
@@ -137,4 +140,4 @@ const addToBlacklist = async (token) => {
   }
 };
 
-module.exports = userRoutes;
+module.exports = usersRoutes;

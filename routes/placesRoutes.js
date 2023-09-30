@@ -1,10 +1,20 @@
 const express = require("express");
-const productRoutes = express.Router();
+const placesRoutes = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware");
-const productModel = require("../models/productModel");
-const cartModel = require("../models/cartModel");
+const homeModel = require("../models/homeModel");
+const placeModel = require("../models/placeModel");
 
-productRoutes.get("/getproducts", async (req, res) => {
+placesRoutes.get("/gethomeplaces", async (req, res) => {
+  try {
+    const places = await homeModel.find();
+
+    return res.status(200).send(places);
+  } catch (error) {
+    return res.status(400).send({ error: error.message });
+  }
+});
+
+placesRoutes.get("/getplaces", async (req, res) => {
   try {
     const { title, pageno, pagelimit, sortbyprice } = req.query;
     const query = new Object();
@@ -25,60 +35,60 @@ productRoutes.get("/getproducts", async (req, res) => {
       sortOrder = -1;
     }
 
-    const products = await productModel
+    const places = await placeModel
       .find(query)
       .sort({ [sortBy]: sortOrder })
       .skip(toSkip)
       .limit(pagelimit);
 
-    return res.status(200).send(products);
+    return res.status(200).send(places);
   } catch (error) {
     return res.status(400).send({ error: error.message });
   }
 });
 
-productRoutes.get("/getproduct/:productID", async (req, res) => {
+placesRoutes.get("/getplace/:placeID", async (req, res) => {
   try {
-    const productID = req.params.productID;
+    const placeID = req.params.placeID;
 
-    const product = await productModel.findById(productID);
+    const place = await placeModel.find();
 
-    return res.status(200).send(product);
+    return res.status(200).send(place);
   } catch (error) {
     return res.status(400).send({ error: error.message });
   }
 });
 
-productRoutes.use(authMiddleware);
+placesRoutes.use(authMiddleware);
 
-productRoutes.post("/addproduct", async (req, res) => {
+placesRoutes.post("/addplace", async (req, res) => {
   try {
     const existingUserID = req.body.userID;
 
-    const product = await productModel.create({
+    const place = await placeModel.create({
       ...req.body,
       userID: existingUserID,
     });
 
-    product.populate();
+    place.populate();
     return res
       .status(200)
-      .send({ msg: "Product has been added successfully", product });
+      .send({ msg: "Place has been added successfully", place });
   } catch (error) {
     return res.status(400).send({ error: error.message });
   }
 });
 
-productRoutes.patch("/update/:productID", async (req, res) => {
+placesRoutes.patch("/update/:placeID", async (req, res) => {
   try {
     const existingUserID = req.body.userID;
-    const productID = req.params.productID;
+    const placeID = req.params.placeID;
 
-    const product = await productModel.findById(productID);
+    const place = await placeModel.findById(placeID);
 
-    if (product.userID.toString() == existingUserID) {
-      const updatedProduct = await productModel.findByIdAndUpdate(
-        productID,
+    if (place.userID.toString() == existingUserID) {
+      const updatedPlace = await placeModel.findByIdAndUpdate(
+        placeID,
         req.body,
         {
           new: true,
@@ -86,7 +96,7 @@ productRoutes.patch("/update/:productID", async (req, res) => {
       );
       return res
         .status(200)
-        .send({ msg: "Product has been updated successfully", updatedProduct });
+        .send({ msg: "Place has been updated successfully", updatedPlace });
     } else {
       return res.status(400).send({ msg: "Invaild user ID" });
     }
@@ -95,18 +105,18 @@ productRoutes.patch("/update/:productID", async (req, res) => {
   }
 });
 
-productRoutes.delete("/delete/:productID", async (req, res) => {
+placesRoutes.delete("/delete/:placeID", async (req, res) => {
   try {
     const existingUserID = req.body.userID;
-    const productID = req.params.productID;
+    const placeID = req.params.placeID;
 
-    const product = await productModel.findById(productID);
+    const place = await placeModel.findById(placeID);
 
-    if (product.userID.toString() === existingUserID) {
-      const deletedProduct = await productModel.findByIdAndDelete(productID);
+    if (place.userID.toString() === existingUserID) {
+      const deletedplace = await placeModel.findByIdAndDelete(placeID);
       return res
         .status(200)
-        .send({ msg: "Product has been deleted successfully", deletedProduct });
+        .send({ msg: "place has been deleted successfully", deletedplace });
     } else {
       return res.status(400).send({ msg: "Invaild user ID" });
     }
@@ -115,4 +125,4 @@ productRoutes.delete("/delete/:productID", async (req, res) => {
   }
 });
 
-module.exports = productRoutes;
+module.exports = placesRoutes;
