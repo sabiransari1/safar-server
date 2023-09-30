@@ -51,7 +51,7 @@ placesRoutes.get("/getplace/:placeID", async (req, res) => {
   try {
     const placeID = req.params.placeID;
 
-    const place = await placeModel.find();
+    const place = await placeModel.findById(placeID);
 
     return res.status(200).send(place);
   } catch (error) {
