@@ -36,7 +36,7 @@ usersRoutes.post("/register", async (req, res) => {
         .send({ msg: "White space is not allowed in the phone no" });
     }
 
-    const phoneSize = "\\A[0-9]{10}\\z";
+    const phoneSize = /^[0-9]{10}$/;
     if (!phoneSize.test(phone)) {
       return res.status(400).send({ msg: "Phone no size should be 10 digit" });
     }
