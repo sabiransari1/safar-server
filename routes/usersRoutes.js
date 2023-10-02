@@ -14,7 +14,9 @@ usersRoutes.post("/register", async (req, res) => {
     if (existingUser) {
       return res
         .status(401)
-        .send({ msg: "User already exists, Please register again" });
+        .send({
+          msg: "User already exists with this email id, Please register again",
+        });
     }
 
     const whiteSpaceRegex = /^\S*$/;
