@@ -13,37 +13,37 @@ usersRoutes.post("/register", async (req, res) => {
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
       return res
-        .status(400)
+        .status(401)
         .send({ msg: "User already exists, Please register again" });
     }
 
     const whiteSpaceRegex = /^\S*$/;
     if (!whiteSpaceRegex.test(firstname)) {
       return res
-        .status(400)
+        .status(500)
         .send({ msg: "White space is not allowed in the firstname" });
     }
 
     if (!whiteSpaceRegex.test(lastname)) {
       return res
-        .status(400)
+        .status(500)
         .send({ msg: "White space is not allowed in the lastname" });
     }
 
     if (!whiteSpaceRegex.test(phone)) {
       return res
-        .status(400)
+        .status(500)
         .send({ msg: "White space is not allowed in the phone no" });
     }
 
     const phoneSize = /^[0-9]{10}$/;
     if (!phoneSize.test(phone)) {
-      return res.status(400).send({ msg: "Phone no size should be 10 digit" });
+      return res.status(500).send({ msg: "Phone no size should be 10 digit" });
     }
 
     if (!whiteSpaceRegex.test(email.trim())) {
       return res
-        .status(400)
+        .status(500)
         .send({ msg: "White space is not allowed in the email address" });
     }
 
@@ -51,7 +51,7 @@ usersRoutes.post("/register", async (req, res) => {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])([A-Za-z\d@$!%*?&]{8,})$/;
     if (!passwordRegex.test(password)) {
       return res
-        .status(400)
+        .status(500)
         .send({ msg: "Weak password, Please select a new password" });
     }
 
@@ -73,7 +73,7 @@ usersRoutes.post("/login", async (req, res) => {
     const userCheck = await userModel.findOne({ email });
     if (!userCheck) {
       return res
-        .status(400)
+        .status(401)
         .send({ msg: "User doesn't exist, Please register again" });
     }
 
@@ -109,7 +109,7 @@ usersRoutes.post("/logout", async (req, res) => {
     const blacklistRes = await addToBlacklist(token);
 
     if (blacklistRes) {
-      return res.status(400).send({ error: blacklistRes.error });
+      return res.status(401).send({ error: blacklistRes.error });
     } else {
       return res.status(200).send({ msg: "Logged out successfull" });
     }

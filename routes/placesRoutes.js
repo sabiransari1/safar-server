@@ -95,10 +95,10 @@ placesRoutes.patch("/update/:placeID", async (req, res) => {
         }
       );
       return res
-        .status(200)
+        .status(201)
         .send({ msg: "Place has been updated successfully", updatedPlace });
     } else {
-      return res.status(400).send({ msg: "Invaild user ID" });
+      return res.status(500).send({ msg: "Invaild user ID" });
     }
   } catch (error) {
     return res.status(400).send({ error: error.message });
@@ -118,7 +118,7 @@ placesRoutes.delete("/delete/:placeID", async (req, res) => {
         .status(200)
         .send({ msg: "place has been deleted successfully", deletedplace });
     } else {
-      return res.status(400).send({ msg: "Invaild user ID" });
+      return res.status(500).send({ msg: "Invaild user ID" });
     }
   } catch (error) {
     return res.status(400).send({ error: error.message });

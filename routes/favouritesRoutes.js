@@ -31,7 +31,7 @@ favouritesRoutes.post("/addtofavourite/:_id", async (req, res) => {
     });
 
     favouritePlaces.populate();
-    return res.status(200).send({
+    return res.status(201).send({
       msg: "Favourite place has been added successfully",
       favouritePlaces,
     });
@@ -40,7 +40,7 @@ favouritesRoutes.post("/addtofavourite/:_id", async (req, res) => {
   }
 });
 
-favouritesRoutes.delete("/delete/:_id", async (req, res) => {
+favouritesRoutes.delete("/deletefavourite/:_id", async (req, res) => {
   try {
     const existingUserID = req.body.userID;
     const _id = req.params._id;
@@ -54,7 +54,7 @@ favouritesRoutes.delete("/delete/:_id", async (req, res) => {
         deletedFavouritePlace,
       });
     } else {
-      return res.status(400).send({ msg: "Invaild user ID" });
+      return res.status(500).send({ msg: "Invaild user ID" });
     }
   } catch (error) {
     return res.status(400).send({ error: error.message });
