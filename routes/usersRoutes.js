@@ -12,11 +12,9 @@ usersRoutes.post("/register", async (req, res) => {
 
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
-      return res
-        .status(401)
-        .send({
-          msg: "User already exists with this email id, Please register again",
-        });
+      return res.status(401).send({
+        msg: "User already exists with this email id, Please register again",
+      });
     }
 
     const whiteSpaceRegex = /^\S*$/;
@@ -113,7 +111,7 @@ usersRoutes.post("/logout", async (req, res) => {
     if (blacklistRes) {
       return res.status(401).send({ error: blacklistRes.error });
     } else {
-      return res.status(200).send({ msg: "Logged out successfull" });
+      return res.status(200).send({ msg: "Logout successfull" });
     }
   } catch (error) {
     return res.status(400).send({ error: error.message });
