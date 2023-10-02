@@ -31,7 +31,7 @@ favouritesRoutes.post("/addtofavourite/:_id", async (req, res) => {
     });
 
     favouritePlaces.populate();
-    return res.status(201).send({
+    return res.status(200).send({
       msg: "Favourite place has been added successfully",
       favouritePlaces,
     });

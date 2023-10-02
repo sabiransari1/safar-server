@@ -90,7 +90,7 @@ usersRoutes.post("/login", async (req, res) => {
       });
     } else {
       return res
-        .status(400)
+        .status(401)
         .send({ msg: "Invaild password, please try again" });
     }
   } catch (error) {

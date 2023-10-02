@@ -95,7 +95,7 @@ placesRoutes.patch("/update/:placeID", async (req, res) => {
         }
       );
       return res
-        .status(201)
+        .status(200)
         .send({ msg: "Place has been updated successfully", updatedPlace });
     } else {
       return res.status(500).send({ msg: "Invaild user ID" });
