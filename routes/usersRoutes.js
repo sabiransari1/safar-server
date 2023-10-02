@@ -21,38 +21,38 @@ usersRoutes.post("/register", async (req, res) => {
     if (!whiteSpaceRegex.test(firstname)) {
       return res
         .status(500)
-        .send({ msg: "White space is not allowed in the firstname" });
+        .send({ msg: "White space is not allowed in the First Name" });
     }
 
     if (!whiteSpaceRegex.test(lastname)) {
       return res
         .status(500)
-        .send({ msg: "White space is not allowed in the lastname" });
+        .send({ msg: "White space is not allowed in the Last Name" });
     }
 
     if (!whiteSpaceRegex.test(phone)) {
       return res
         .status(500)
-        .send({ msg: "White space is not allowed in the phone no" });
+        .send({ msg: "White space is not allowed in the Phone No" });
     }
 
     const phoneSize = /^[0-9]{10}$/;
     if (!phoneSize.test(phone)) {
-      return res.status(500).send({ msg: "Phone no size should be 10 digit" });
+      return res.status(500).send({ msg: "Phone no size should be 10 digits" });
     }
 
     if (!whiteSpaceRegex.test(email.trim())) {
       return res
         .status(500)
-        .send({ msg: "White space is not allowed in the email address" });
+        .send({ msg: "White space is not allowed in the Email Address" });
     }
 
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])([A-Za-z\d@$!%*?&]{8,})$/;
     if (!passwordRegex.test(password)) {
-      return res
-        .status(500)
-        .send({ msg: "Weak password, Please select a new password" });
+      return res.status(500).send({
+        msg: `Please select a new password with minimum 8 alphanumeric and special characters`,
+      });
     }
 
     const hashPassword = await bcrypt.hash(password, 8);
