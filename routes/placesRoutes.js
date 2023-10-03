@@ -16,7 +16,7 @@ placesRoutes.get("/gethomeplaces", async (req, res) => {
 
 placesRoutes.get("/getplaces", async (req, res) => {
   try {
-    const { title, pageno, pagelimit, sortbyprice } = req.query;
+    const { title, pageno, pagelimit, sortbyprice, type } = req.query;
     const query = new Object();
     if (title) {
       query.title = RegExp(title, "i");
@@ -36,7 +36,7 @@ placesRoutes.get("/getplaces", async (req, res) => {
     }
 
     const places = await placeModel
-      .find(query)
+      .find({ city: query })
       .sort({ [sortBy]: sortOrder })
       .skip(toSkip)
       .limit(pagelimit);
@@ -116,7 +116,7 @@ placesRoutes.delete("/delete/:placeID", async (req, res) => {
       const deletedplace = await placeModel.findByIdAndDelete(placeID);
       return res
         .status(200)
-        .send({ msg: "place has been deleted successfully", deletedplace });
+        .send({ msg: "Place has been deleted successfully", deletedplace });
     } else {
       return res.status(500).send({ msg: "Invaild user ID" });
     }
