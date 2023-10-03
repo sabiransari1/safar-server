@@ -18,8 +18,9 @@ placesRoutes.get("/getplaces", async (req, res) => {
   try {
     const { title, pageno, pagelimit, sortbyprice, type } = req.query;
     const query = new Object();
-    if (title) {
+    if (title || type) {
       query.title = RegExp(title, "i");
+      query.type = RegExp(type, "i");
     }
     const toSkip = pageno * pagelimit - pagelimit;
     let sortOrder = null;
@@ -36,7 +37,7 @@ placesRoutes.get("/getplaces", async (req, res) => {
     }
 
     const places = await placeModel
-      .find({ city: query })
+      .find(query)
       .sort({ [sortBy]: sortOrder })
       .skip(toSkip)
       .limit(pagelimit);
