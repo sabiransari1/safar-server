@@ -37,7 +37,7 @@ placesRoutes.get("/getplaces", async (req, res) => {
     }
 
     const places = await placeModel
-      .find({ city: title })
+      .find(query)
       .sort({ [sortBy]: sortOrder })
       .skip(toSkip)
       .limit(pagelimit);
