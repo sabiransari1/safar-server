@@ -1,6 +1,6 @@
 # Server introduction:
 
-Our E-Commerce Website Backend is the backbone of our online shopping experience, handling critical operations and ensuring smooth functionality. It serves as the engine that powers product management, user authentication, order processing, and more. With its robust architecture and scalable design, our backend ensures a seamless shopping experience for both customers and administrators. The Backend API is designed to manage the Product and User. It allows clients to read the products through HTTP requests.
+Our E-Commerce Website Backend is the backbone of our application, handling critical operations and ensuring smooth functionality. It serves as the engine that powers product management, user authentication, order processing, and more. With its robust architecture and scalable design, our backend ensures a seamless experience for both customers and administrators. The Backend API is designed to manage the Product and User. It allows clients to read the products through HTTP requests.
 
 ## Architecture:
 
@@ -16,11 +16,11 @@ The backend follows a three-tier architecture:
 
 - _Product Management:_ Effortlessly add, update, and remove products from the catalog. Categorize and organize products for easy discovery.
 
-- _User Authentication:_ Secure user registration and authentication to ensure a safe shopping environment. Allow customers to manage their profiles and track their order history.
+- _User Authentication:_ Secure user registration and authentication to ensure a safe environment. Allow customers to manage their profiles and track their produc history.
 
-- _Shopping Cart_ and Checkout: Enable customers to add products to their cart, proceed to checkout, and complete their purchases securely.
+- _Favorite_ and Checkout: Enable customers to add products to their favorite list, proceed to checkout, and complete their purchases securely.
 
-- _Order Processing:_ Efficiently handle order fulfillment, shipment tracking, and payment processing for a seamless customer experience.
+- _Order Processing:_ Efficiently handle order fulfillment, and payment processing for a seamless customer experience.
 
 - _Inventory Management:_ Track product availability, stock levels, and handle restocking processes.
 
