@@ -4,7 +4,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const favouriteModel = require("../models/favouriteModel");
 const placeModel = require("../models/placeModel");
 
-favouritesRoutes.use(authMiddleware);
+// favouritesRoutes.use(authMiddleware);
 
 favouritesRoutes.get("/favouritesplaces", async (req, res) => {
   try {
@@ -26,7 +26,7 @@ favouritesRoutes.post("/addtofavourite/:_id", async (req, res) => {
     const places = await placeModel.findById(_id);
 
     const favouritePlaces = await favouriteModel.create({
-      ...places._doc,
+      ...places,
       userID: existingUserID,
     });
 
