@@ -12,7 +12,7 @@ const favouriteSchema = new mongoose.Schema(
     review: { type: Number, required: true },
     rating: { type: Number, required: true },
     userID: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "users",
       required: true,
     },
